@@ -162,6 +162,7 @@ String _operatingSystemForAbi(ffi.Abi abi) {
   switch (abi) {
     case ffi.Abi.linuxArm:
     case ffi.Abi.linuxArm64:
+    case ffi.Abi.linuxLoong64:
     case ffi.Abi.linuxIA32:
     case ffi.Abi.linuxX64:
     case ffi.Abi.linuxRiscv32:

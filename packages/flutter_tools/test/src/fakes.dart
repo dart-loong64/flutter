@@ -552,6 +552,7 @@ class TestFeatureFlags implements FeatureFlags {
     this.isAccessibilityEvaluationsEnabled = false,
     this.isLLDBDebuggingEnabled = false,
     this.isUISceneMigrationEnabled = false,
+    this.isLoong64SupportEnabled = false,
     this.isRiscv64SupportEnabled = false,
     this.isMacOSArm64OnlyEnabled = false,
   });
@@ -611,6 +612,9 @@ class TestFeatureFlags implements FeatureFlags {
   final bool isUISceneMigrationEnabled;
 
   @override
+  final bool isLoong64SupportEnabled;
+
+  @override
   final bool isRiscv64SupportEnabled;
 
   @override
@@ -635,6 +639,7 @@ class TestFeatureFlags implements FeatureFlags {
       accessibilityEvaluationsFeature => isAccessibilityEvaluationsEnabled,
       lldbDebugging => isLLDBDebuggingEnabled,
       uiSceneMigration => isUISceneMigrationEnabled,
+      loong64 => isLoong64SupportEnabled,
       riscv64 => isRiscv64SupportEnabled,
       macOSArm64Only => isMacOSArm64OnlyEnabled,
       recordUse => isRecordUseEnabled,
@@ -662,6 +667,7 @@ class TestFeatureFlags implements FeatureFlags {
     accessibilityEvaluationsFeature,
     lldbDebugging,
     uiSceneMigration,
+    loong64,
     riscv64,
     macOSArm64Only,
   ];

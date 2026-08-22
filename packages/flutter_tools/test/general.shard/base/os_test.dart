@@ -149,6 +149,14 @@ void main() {
       expect(utils.hostPlatform, HostPlatform.linux_arm64);
     });
 
+    testWithoutContext('Linux LOONG64', () async {
+      final OperatingSystemUtils utils = createOSUtils(
+        FakePlatform(),
+        currentAbi: Abi.linuxLoong64,
+      );
+      expect(utils.hostPlatform, HostPlatform.linux_loong64);
+    });
+
     testWithoutContext('Linux RISCV64', () async {
       final OperatingSystemUtils utils = createOSUtils(
         FakePlatform(),

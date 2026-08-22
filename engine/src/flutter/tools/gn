@@ -96,6 +96,10 @@ def is_host_build(args):
   # target_os='linux' and linux-cpu='arm64'
   if args.target_os == 'linux' and args.linux_cpu == 'arm64':
     return True
+  # For linux loong64 builds, we cross compile from x64 hosts, so the
+  # target_os='linux' and linux-cpu='loong64'.
+  if args.target_os == 'linux' and args.linux_cpu == 'loong64':
+    return True
   # The Mac and host targets are redundant. Again, necessary to disambiguate
   # during cross-compilation.
   if args.target_os == 'mac':
@@ -116,7 +120,7 @@ def can_use_prebuilt_dart(args):
       prebuilt = 'macos-x64'
     else:
       prebuilt = 'linux-x64'
-  elif args.target_os == 'linux' and args.linux_cpu in ['x64', 'arm64']:
+  elif args.target_os == 'linux' and args.linux_cpu in ['x64', 'arm64', 'loong64']:
     prebuilt = 'linux-%s' % args.linux_cpu
   elif args.target_os == 'mac' and args.mac_cpu in ['x64', 'arm64']:
     prebuilt = 'macos-%s' % args.mac_cpu
@@ -163,6 +167,8 @@ def get_host_cpu():
     return 'x64'
   if machine in ['i686', 'i386', 'x86']:
     return 'x86'
+  if machine in ['loongarch64', 'loong64']:
+    return 'loong64'
   raise Exception('Unknown CPU architecture: %s' % machine)
 
 
@@ -983,7 +989,8 @@ def parse_args(args):
   parser.add_argument('--web', action='store_true', default=False)
   parser.add_argument('--windows', dest='target_os', action='store_const', const='win')
 
-  parser.add_argument('--linux-cpu', type=str, choices=['x64', 'x86', 'arm64', 'arm'])
+  parser.add_argument(
+      '--linux-cpu', type=str, choices=['x64', 'x86', 'arm64', 'arm', 'loong64'])
   parser.add_argument('--fuchsia-cpu', type=str, choices=['x64', 'arm64'], default='x64')
   parser.add_argument('--windows-cpu', type=str, choices=['x64', 'arm64', 'x86'], default='x64')
   parser.add_argument('--simulator-cpu', type=str, choices=['x64', 'arm64'], default='x64')
