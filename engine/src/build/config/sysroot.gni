@@ -28,6 +28,9 @@ if (current_toolchain == default_toolchain && target_sysroot != "") {
     } else if (current_cpu == "arm64") {
       sysroot =
           rebase_path("//build/linux/debian_bullseye_arm64-sysroot", root_build_dir)
+    } else if (current_cpu == "loong64") {
+      sysroot =
+          rebase_path("//build/linux/debian_trixie_loong64-sysroot", root_build_dir)
     } else if (current_cpu == "riscv64") {
       sysroot =
           rebase_path("//build/linux/debian_trixie_riscv64-sysroot", root_build_dir)

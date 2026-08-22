@@ -150,6 +150,7 @@ abstract class OperatingSystemUtils {
       Abi.macosArm64 => HostPlatform.darwin_arm64,
       Abi.linuxX64 => HostPlatform.linux_x64,
       Abi.linuxArm64 => HostPlatform.linux_arm64,
+      Abi.linuxLoong64 => HostPlatform.linux_loong64,
       Abi.linuxRiscv64 => HostPlatform.linux_riscv64,
       Abi.windowsX64 => HostPlatform.windows_x64,
       Abi.windowsArm64 => HostPlatform.windows_arm64,
@@ -604,6 +605,7 @@ enum HostPlatform {
   darwin_arm64('darwin-arm64', 'arm64'),
   linux_x64('linux-x64', 'x64'),
   linux_arm64('linux-arm64', 'arm64'),
+  linux_loong64('linux-loong64', 'loong64'),
   linux_riscv64('linux-riscv64', 'riscv64'),
   windows_x64('windows-x64', 'x64'),
   windows_arm64('windows-arm64', 'arm64');
