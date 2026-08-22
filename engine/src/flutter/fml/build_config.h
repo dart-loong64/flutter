@@ -95,6 +95,11 @@
 #define FML_ARCH_CPU_ARM64 1
 #define FML_ARCH_CPU_64_BITS 1
 #define FML_ARCH_CPU_LITTLE_ENDIAN 1
+#elif defined(__loongarch64)
+#define FML_ARCH_CPU_LOONGARCH_FAMILY 1
+#define FML_ARCH_CPU_LOONG64 1
+#define FML_ARCH_CPU_64_BITS 1
+#define FML_ARCH_CPU_LITTLE_ENDIAN 1
 #elif defined(__riscv) && __SIZEOF_POINTER__ == 4
 #define FML_ARCH_CPU_RISCV_FAMILY 1
 #define FML_ARCH_CPU_RISCV32 1
