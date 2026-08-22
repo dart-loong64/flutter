@@ -970,6 +970,7 @@ OS getNativeOSFromTargetPlatform(TargetPlatform platform) {
       return OS.macOS;
     case TargetPlatform.linux_x64:
     case TargetPlatform.linux_arm64:
+    case TargetPlatform.linux_loong64:
     case TargetPlatform.linux_riscv64:
       return OS.linux;
     case TargetPlatform.windows_x64:
@@ -1018,6 +1019,7 @@ const _osTargets = <OS, Set<Architecture>>{
     Architecture.arm,
     Architecture.arm64,
     Architecture.ia32,
+    Architecture.loong64,
     Architecture.riscv32,
     Architecture.riscv64,
     Architecture.x64,

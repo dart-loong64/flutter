@@ -41,6 +41,12 @@
         "Tarball": "debian_bullseye_ppc64el_sysroot.tar.xz",
         "URL": "https://commondatastorage.googleapis.com/chrome-linux-sysroot"
     },
+    "trixie_loong64": {
+        "Sha256Sum": "34c9216569fc52eac31d117b5695d4ec747b7bb55c89ae9bb54d0e40f3fb1aee",
+        "SysrootDir": "debian_trixie_loong64-sysroot",
+        "Tarball": "debian_trixie_loong64_sysroot.tar.xz",
+        "URL": "https://loong64.github.io/chrome-linux-sysroot"
+    },
     "trixie_riscv64": {
         "Sha256Sum": "5c8ef4067f41a625d81113a6292180acf4ef49a2ffe015c2779123c133b8e250",
         "SysrootDir": "debian_trixie_riscv64-sysroot",

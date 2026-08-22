@@ -90,6 +90,9 @@ if [ ! -f "$ENGINE_STAMP" ] || [ "$ENGINE_VERSION" != "$(< "$ENGINE_STAMP")" ]; 
       x86_64)
         ARCH="x64"
         ;;
+      loongarch64)
+        ARCH="loong64"
+        ;;
       riscv64)
         ARCH="riscv64"
         ;;

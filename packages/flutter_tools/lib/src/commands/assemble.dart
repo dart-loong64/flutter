@@ -46,12 +46,15 @@ var _kDefaultTargets = <Target>[
   // Linux targets
   const DebugBundleLinuxAssets(TargetPlatform.linux_x64),
   const DebugBundleLinuxAssets(TargetPlatform.linux_arm64),
+  const DebugBundleLinuxAssets(TargetPlatform.linux_loong64),
   const DebugBundleLinuxAssets(TargetPlatform.linux_riscv64),
   const ProfileBundleLinuxAssets(TargetPlatform.linux_x64),
   const ProfileBundleLinuxAssets(TargetPlatform.linux_arm64),
+  const ProfileBundleLinuxAssets(TargetPlatform.linux_loong64),
   const ProfileBundleLinuxAssets(TargetPlatform.linux_riscv64),
   const ReleaseBundleLinuxAssets(TargetPlatform.linux_x64),
   const ReleaseBundleLinuxAssets(TargetPlatform.linux_arm64),
+  const ReleaseBundleLinuxAssets(TargetPlatform.linux_loong64),
   const ReleaseBundleLinuxAssets(TargetPlatform.linux_riscv64),
   const ReleaseAndroidApplication(),
   // This is a one-off rule for bundle and aot compat.

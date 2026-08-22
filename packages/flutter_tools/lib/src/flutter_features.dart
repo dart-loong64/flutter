@@ -74,6 +74,9 @@ mixin FlutterFeatureFlagsIsEnabled implements FeatureFlags {
   bool get isUISceneMigrationEnabled => isEnabled(uiSceneMigration);
 
   @override
+  bool get isLoong64SupportEnabled => isEnabled(loong64);
+
+  @override
   bool get isRiscv64SupportEnabled => isEnabled(riscv64);
 
   @override

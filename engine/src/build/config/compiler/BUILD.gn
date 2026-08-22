@@ -261,6 +261,11 @@ config("compiler") {
           "-fno-caller-saves",
         ]
       }
+    } else if (current_cpu == "loong64") {
+      assert(is_clang)
+
+      cflags += [ "--target=loongarch64-linux-gnu" ]
+      ldflags += [ "--target=loongarch64-linux-gnu" ]
     }
 
     if (!is_android) {

@@ -658,6 +658,46 @@ ERROR: No file or variants found for asset: images/a_dot_burr.jpeg
   );
 
   testUsingContext(
+    'Linux on LOONG64 build --debug passes debug mode to cmake and ninja',
+    () async {
+      final command = BuildCommand(
+        androidSdk: FakeAndroidSdk(),
+        buildSystem: TestBuildSystem.all(BuildResult(success: true)),
+        fileSystem: fileSystem,
+        logger: logger,
+        osUtils: CustomFakeOperatingSystemUtils(hostPlatform: HostPlatform.linux_loong64),
+        config: FakeConfig(),
+        platform: FakePlatform(),
+        fileSystemUtils: FakeFileSystemUtils(),
+        terminal: FakeTerminal(),
+        plistParser: FakePlistParser(),
+        processUtils: FakeProcessUtils(),
+        processManager: FakeProcessManager.any(),
+        templateRenderer: FakeTemplateRenderer(),
+        xcode: FakeXcode(),
+        artifacts: FakeArtifacts(),
+        cache: FakeCache(),
+        flutterVersion: FakeFlutterVersion(),
+      );
+      setUpMockProjectFilesForBuild();
+      processManager.addCommands(<FakeCommand>[
+        cmakeCommand('debug', target: 'loong64'),
+        ninjaCommand('debug', target: 'loong64'),
+      ]);
+
+      await createTestCommandRunner(
+        command,
+      ).run(const <String>['build', 'linux', '--debug', '--no-pub']);
+    },
+    overrides: <Type, Generator>{
+      FileSystem: () => fileSystem,
+      ProcessManager: () => processManager,
+      Platform: () => linuxPlatform,
+      FeatureFlags: () => TestFeatureFlags(isLinuxEnabled: true),
+    },
+  );
+
+  testUsingContext(
     'Linux on RISCV64 build --debug passes debug mode to cmake and ninja',
     () async {
       final command = BuildCommand(
@@ -761,6 +801,46 @@ ERROR: No file or variants found for asset: images/a_dot_burr.jpeg
       processManager.addCommands(<FakeCommand>[
         cmakeCommand('profile', target: 'arm64'),
         ninjaCommand('profile', target: 'arm64'),
+      ]);
+
+      await createTestCommandRunner(
+        command,
+      ).run(const <String>['build', 'linux', '--profile', '--no-pub']);
+    },
+    overrides: <Type, Generator>{
+      FileSystem: () => fileSystem,
+      ProcessManager: () => processManager,
+      Platform: () => linuxPlatform,
+      FeatureFlags: () => TestFeatureFlags(isLinuxEnabled: true),
+    },
+  );
+
+  testUsingContext(
+    'Linux on LoongArch64 build --profile passes profile mode to make',
+    () async {
+      final command = BuildCommand(
+        androidSdk: FakeAndroidSdk(),
+        buildSystem: TestBuildSystem.all(BuildResult(success: true)),
+        fileSystem: fileSystem,
+        logger: logger,
+        osUtils: CustomFakeOperatingSystemUtils(hostPlatform: HostPlatform.linux_loong64),
+        config: FakeConfig(),
+        platform: FakePlatform(),
+        fileSystemUtils: FakeFileSystemUtils(),
+        terminal: FakeTerminal(),
+        plistParser: FakePlistParser(),
+        processUtils: FakeProcessUtils(),
+        processManager: FakeProcessManager.any(),
+        templateRenderer: FakeTemplateRenderer(),
+        xcode: FakeXcode(),
+        artifacts: FakeArtifacts(),
+        cache: FakeCache(),
+        flutterVersion: FakeFlutterVersion(),
+      );
+      setUpMockProjectFilesForBuild();
+      processManager.addCommands(<FakeCommand>[
+        cmakeCommand('profile', target: 'loong64'),
+        ninjaCommand('profile', target: 'loong64'),
       ]);
 
       await createTestCommandRunner(
@@ -1172,6 +1252,77 @@ set(BINARY_NAME "fizz_bar")
       Analytics: () => fakeAnalytics,
     },
   );
+
+  testUsingContext(
+    'Linux on LOONG64 build --release passes, and check if the LinuxBuildDirectory for loong64 can be referenced correctly by using analytics',
+    () async {
+      final command = BuildCommand(
+        androidSdk: FakeAndroidSdk(),
+        buildSystem: TestBuildSystem.all(BuildResult(success: true)),
+        fileSystem: fileSystem,
+        logger: logger,
+        osUtils: CustomFakeOperatingSystemUtils(hostPlatform: HostPlatform.linux_loong64),
+        config: FakeConfig(),
+        platform: FakePlatform(),
+        fileSystemUtils: FakeFileSystemUtils(),
+        terminal: FakeTerminal(),
+        plistParser: FakePlistParser(),
+        processUtils: FakeProcessUtils(),
+        processManager: FakeProcessManager.any(),
+        templateRenderer: FakeTemplateRenderer(),
+        xcode: FakeXcode(),
+        artifacts: FakeArtifacts(),
+        cache: FakeCache(),
+        flutterVersion: FakeFlutterVersion(),
+      );
+      setUpMockProjectFilesForBuild();
+      processManager.addCommands(<FakeCommand>[
+        cmakeCommand('release', target: 'loong64'),
+        ninjaCommand(
+          'release',
+          target: 'loong64',
+          onRun: (_) {
+            fileSystem.file('build/flutter_size_01/snapshot.linux-loong64.json')
+              ..createSync(recursive: true)
+              ..writeAsStringSync('''
+[
+  {
+    "l": "dart:_internal",
+    "c": "SubListIterable",
+    "n": "[Optimized] skip",
+    "s": 2400
+  }
+]''');
+            fileSystem.file('build/flutter_size_01/trace.linux-loong64.json')
+              ..createSync(recursive: true)
+              ..writeAsStringSync('{}');
+          },
+        ),
+      ]);
+
+      fileSystem.file('build/linux/loong64/release/bundle/libapp.so')
+        ..createSync(recursive: true)
+        ..writeAsBytesSync(List<int>.filled(10000, 0));
+
+      await createTestCommandRunner(
+        command,
+      ).run(const <String>['build', 'linux', '--no-pub', '--analyze-size']);
+
+      // check if libapp.so of "build/linux/loong64/release" directory can be referenced.
+      expect(testLogger.statusText, contains('libapp.so (Dart AOT)'));
+      expect(fakeAnalytics.sentEvents, contains(Event.codeSizeAnalysis(platform: 'linux')));
+    },
+    overrides: <Type, Generator>{
+      FileSystem: () => fileSystem,
+      ProcessManager: () => processManager,
+      Platform: () => linuxPlatform,
+      FeatureFlags: () => TestFeatureFlags(isLinuxEnabled: true),
+      OperatingSystemUtils: () =>
+          CustomFakeOperatingSystemUtils(hostPlatform: HostPlatform.linux_loong64),
+      Analytics: () => fakeAnalytics,
+    },
+  );
+}
 
   testUsingContext(
     'Linux on RISCV64 build --release passes, and check if the LinuxBuildDirectory for riscv64 can be referenced correctly by using analytics',
