@@ -1,0 +1,6 @@
+dependency_overrides:
+  code_assets:
+    git:
+      url: https://github.com/dart-loong64/native.git
+      ref: loong64-code_assets-v1.0.0
+      path: pkgs/code_assets

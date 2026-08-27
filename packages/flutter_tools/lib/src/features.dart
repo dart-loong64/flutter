@@ -79,6 +79,9 @@ abstract class FeatureFlags {
   /// Whether UIScene migration is enabled.
   bool get isUISceneMigrationEnabled;
 
+  /// Whether loong64 support is enabled.
+  bool get isLoong64SupportEnabled;
+
   /// Wether riscv64 support is enabled.
   bool get isRiscv64SupportEnabled;
 
@@ -106,6 +109,7 @@ abstract class FeatureFlags {
     accessibilityEvaluationsFeature,
     lldbDebugging,
     uiSceneMigration,
+    loong64,
     riscv64,
   ];
 
@@ -283,6 +287,16 @@ const uiSceneMigration = Feature(
   master: FeatureChannelSetting(available: true, enabledByDefault: true),
   beta: FeatureChannelSetting(available: true, enabledByDefault: true),
   stable: FeatureChannelSetting(available: true, enabledByDefault: true),
+);
+
+/// The [Feature] for building code targetting loong64 architecture
+const loong64 = Feature(
+  name: 'support for loong64 architecture',
+  configSetting: 'enable-loong64',
+  environmentOverride: 'FLUTTER_LOONG64',
+  master: FeatureChannelSetting(available: true, enabledByDefault: true),
+  beta: FeatureChannelSetting(available: true),
+  stable: FeatureChannelSetting(available: true),
 );
 
 /// The [Feature] for building code targetting riscv64 architecture
